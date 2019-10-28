@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.levi9.connect4.service.GameService;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Component
 public class MinMax
@@ -20,14 +21,16 @@ public class MinMax
 	@Autowired
 	private GameService gameService;
 	
+	private Logger logger = Logger.getLogger(getClass().getName());
+	
 	public Move getNextMove(Board board, int playerToMove)
 	{
-		return minimax(board, 0, playerToMove).getMoveToMake();
+		SearchResult result = minimax(board, 0, playerToMove);
+		logger.info("Move "+result.getMoveToMake().getColumn()+" evaluated to: "+result.getEvaluation());
+		return result.getMoveToMake();
 	}
 	private SearchResult minimax(Board board, int depth, int player)
 	{
-		System.out.println("Depth: " + depth);
-		System.out.println(board);
 		if(gameService.isWinner(board, 1))
 			return new SearchResult(Integer.MAX_VALUE,null);
 		if(gameService.isWinner(board,2))

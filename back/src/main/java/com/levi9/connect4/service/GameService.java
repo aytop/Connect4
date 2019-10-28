@@ -43,7 +43,7 @@ public class GameService
 	{
 		if(checkHorizontally(board, player))
 			return true;
-		if(checkVerticly(board, player))
+		if(checkVertically(board, player))
 			return true;
 		return checkDiagonally(board, player);
 	}
@@ -58,7 +58,7 @@ public class GameService
 		                        Board.HEIGHT,
 		                        0);
 	}
-	private  boolean checkVerticly(Board board, int player)
+	private  boolean checkVertically(Board board, int player)
 	{
 		
 		return checkBoardForWin(board,
@@ -89,48 +89,48 @@ public class GameService
 		                        -1);
 	}
 	
-	public int getNumberOfThreats(Board board, int player,int diskRequired)
+	public List<Threat> getThreats(Board board, int player,int diskRequired)
 	{
-		int result = 0;
+		List<Threat> resultList =new ArrayList<>();
 		//Horizontally
-		result +=checkBoardForThreats(board,
+		resultList.addAll(checkBoardForThreats(board,
 		                     player,
 		                     Board.WIDTH-3,
 		                     1,
 		                     0,
 		                     Board.HEIGHT,
 		                     0,
-		                     diskRequired);
+		                     diskRequired));
 		//Vertically
-		result+=checkBoardForThreats(board,
+		resultList.addAll(checkBoardForThreats(board,
 		                     player,
 		                     0,
 		                     Board.WIDTH,
 		                     0,
 		                     Board.HEIGHT-3,
 		                     1,
-		                     diskRequired);
+		                     diskRequired));
 		//Diagonally
-		result+=checkBoardForThreats(board,
+		resultList.addAll(checkBoardForThreats(board,
 		                     player,
 		                     Board.WIDTH-3,
 		                     1,
 		                     0,
 		                     Board.HEIGHT-3 ,
 		                     1,
-		                     diskRequired);
-		result+=checkBoardForThreats(board,
+		                     diskRequired));
+		resultList.addAll(checkBoardForThreats(board,
 		                     player,
 		                     Board.WIDTH-3,
 		                     1,
 		                     3,
 		                     Board.HEIGHT,
 		                     -1,
-		                     diskRequired);
-		return result;
+		                     diskRequired));
+		return resultList;
 	}
 	
-	private int checkBoardForThreats(Board board,
+	private List<Threat> checkBoardForThreats(Board board,
 	                       int player,
 	                       int widthEnd,
 	                       int widthStep,
@@ -139,13 +139,15 @@ public class GameService
 	                       int heightStep,
 	                       int diskRequired)
 	{
-		int result=0;
+		List<Threat> resultList = new ArrayList<>();
 		for (int width = 0; width < widthEnd; width++)
 		{
 			for (int height = heightStart; height < heightEnd; height++)
 			{
 				if (board.getSquare(width, height).getOccupation().hasValue(player))
 				{
+					Square[] threatSquares = new Square[4];
+					threatSquares[0] = board.getSquare(width, height);
 					boolean isThreat = true;
 					int     inARow   = 1;
 					for (int offset = 1; offset < 4 && isThreat; offset++)
@@ -154,6 +156,11 @@ public class GameService
 						                           height + heightStep * offset)
 						                .getOccupation()
 						                .isNotOtherPlayer(player);
+						if(isThreat)
+						{
+							threatSquares[offset] = board.getSquare(width + widthStep * offset,
+							                height + heightStep * offset);
+						}
 						if (board.getSquare(width + widthStep * offset,
 						                    height + heightStep * offset)
 						         .getOccupation()
@@ -165,12 +172,12 @@ public class GameService
 					}
 					if (isThreat && inARow == diskRequired)
 					{
-						result++;
+						resultList.add(new Threat(threatSquares));
 					}
 				}
 			}
 		}
-		return  result;
+		return  resultList;
 	}
 	
 	private boolean checkBoardForWin(Board board,
