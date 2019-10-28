@@ -1,0 +1,6 @@
+<app-game-over *ngIf="gameOver" [player]="winningPlayer"></app-game-over>
+<div id="grid">
+  <div id="row" *ngFor="let row of this.board.squares">
+    <app-square *ngFor="let square of row" [square]="square" (click)="this.onClick(square)"></app-square>
+  </div>
+</div>
