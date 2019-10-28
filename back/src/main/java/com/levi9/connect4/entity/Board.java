@@ -99,6 +99,7 @@ public class Board
 			for (int w = 0; w < WIDTH; w++)
 			{
 				sb.append(squares[w][h].getOccupation().getNumberValue());
+//				sb.append("("+w+", "+h+")");
 				sb.append(" ");
 			}
 			sb.append("\n");

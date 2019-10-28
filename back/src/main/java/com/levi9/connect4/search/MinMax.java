@@ -22,7 +22,7 @@ public class MinMax
 	
 	public Move getNextMove(Board board, int playerToMove)
 	{
-		return minimax(board, 0, playerToMove).getMovetoMake();
+		return minimax(board, 0, playerToMove).getMoveToMake();
 	}
 	private SearchResult minimax(Board board, int depth, int player)
 	{

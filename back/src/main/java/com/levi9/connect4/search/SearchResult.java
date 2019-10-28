@@ -5,12 +5,12 @@ import com.levi9.connect4.entity.Move;
 public class SearchResult
 {
 	private int  evaluation;
-	private Move movetoMake;
+	private Move moveToMake;
 	
-	public SearchResult(int evaluation, Move movetoMake)
+	public SearchResult(int evaluation, Move moveToMake)
 	{
 		this.evaluation = evaluation;
-		this.movetoMake = movetoMake;
+		this.moveToMake = moveToMake;
 	}
 	
 	public int getEvaluation()
@@ -23,13 +23,13 @@ public class SearchResult
 		this.evaluation = evaluation;
 	}
 	
-	public Move getMovetoMake()
+	public Move getMoveToMake()
 	{
-		return movetoMake;
+		return moveToMake;
 	}
 	
-	public void setMovetoMake(Move movetoMake)
+	public void setMoveToMake(Move moveToMake)
 	{
-		this.movetoMake = movetoMake;
+		this.moveToMake = moveToMake;
 	}
 }

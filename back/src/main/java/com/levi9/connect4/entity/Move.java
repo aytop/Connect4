@@ -4,11 +4,13 @@ public class Move
 {
 	private int player;
 	private Column column;
+	private int columnNumber;
 	
 	public Move(int player, Column column)
 	{
 		this.column = column;
 		this.player = player;
+		this.columnNumber = column.getColumnOridnal();
 	}
 	
 	public int getPlayer()
@@ -19,6 +21,11 @@ public class Move
 	public Column getColumn()
 	{
 		return column;
+	}
+	
+	public int getColumnNumber()
+	{
+		return columnNumber;
 	}
 	
 	@Override
